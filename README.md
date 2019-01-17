@@ -19,6 +19,8 @@ The data resides in a number of CSV files which I downloaded into a sister
 directory "data".
 
 The base source files are in "src" directory, except for a few helper files:
+  src/big_inning.py - scanns the game log files in "data" and tests game
+  src/game_stats.py - analyzes a game stats, facilitates access, e.g. winner's innings
   select_trace.py which facilitates tracing and loging.
   select_error.py which provides domain based error processing
 
@@ -39,6 +41,16 @@ The number of 47% was a surprise to me.  I've not investigated the high number o
 which have no inning data.  This may be a bug or missing data, but the 197236 processed files provide
 a sizeable number.
 
+
+Setup:
+  1. Create base / project directory, e.g. big_inning
+  2. Place all source (.py) files in big_inning/src
+  3. Place data files (sample GL1871.TXT, GL2018.TXT) in big_inning/data
+  
+ Run:
+   1. cd big_inning
+   2. python src/big_inning.py
+   
 Ray Smith
 
 
