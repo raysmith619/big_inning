@@ -28,14 +28,20 @@ A couple of data files are present GL1871.TXT, GL2018.TXT.  The complete list we
 downloaded to the "data" sister directory from www.retrosheet.org/gamelogs
 
 At the risk of spoiling the surprise, the run listing end was:
-
+ Big Inning for PHI of 2 runs in 20180930 ATL @ PHI visitor: 001000000 home: 20001000x
+ Big Inning for LAN of 7 runs in 20180930 LAN @ SFN visitor: 207320001 home: 000000000
+ Big Inning for BAL of 4 runs in 20180930 HOU @ BAL visitor: 000000000 home: 00040000x
  Big Inning for BOS of 4 runs in 20180930 NYA @ BOS visitor: 000200000 home: 43030000x
  Big Inning for SEA of 2 runs in 20180930 TEX @ SEA visitor: 000001000 home: 02001000x
  Big Inning for MIL of 2 runs in 20181001 MIL @ CHN visitor: 001000020 home: 000010000
  Games processed: 197236  skipped: 20931
+ First skipped: 18720525 MID @ WS4 visitor:  home: 
+ Last skipped: 19790712 DET @ CHA visitor:  home: 
+ First processed: 18710504 CL1 @ FW1 visitor: 000000000 home: 010010000
+ Last processed: 20181001 COL @ LAN visitor: 000000002 home: 00022100x
  Big inning games: 92199 (46.75%)
  Saving properties file C:\Users\raysm\workspace\python\baseball\big_inning.properties
- Closing log file C:\Users\raysm\workspace\python\baseball\log\big_inning_20190117_115703.sllog
+ Closing log file C:\Users\raysm\workspace\python\baseball\log\big_inning_20190118_101400.sllog
 
 The number of 47% was a surprise to me.  I've not investigated the high number of skipped games (20931) those
 which have no inning data.  This may be a bug or missing data, but the 197236 processed files provide
