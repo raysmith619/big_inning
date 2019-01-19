@@ -57,6 +57,37 @@ The number of 47% was a surprise to me.  I've not investigated the high number o
 which have no inning data.  This may be a bug or missing data, but the 197236 processed games provide
 a sizeable number.
 
+Some more selection has been added to select start_year an team_pat:
+```
+Big Inning: BAL got 4 in inning 9 on 20180926 BAL @ BOS visitor: 200010304 home: 100110000
+ Big Inning: BOS got 4 in inning 1 on 20180930 NYA @ BOS visitor: 000200000 home: 43030000x
+ Start with year: 2018
+ Select games with team pattern: BOS
+ Games processed: 2431  skipped: 0
+ First processed: 20180329 BOS @ TBA visitor: 030000100 home: 00000006x
+ Last processed: 20180930 NYA @ BOS visitor: 000200000 home: 43030000x
+ Games considered: 162
+ BOS Statistics
+ BOS Total games: 162
+ BOS Total winning games: 108 (66.67%)
+ BOS home games: 81
+ BOS Home    winning games: 57 (70.37%)
+ BOS away games: 81
+ BOS Away    winning games: 51 (62.96%)
+ BOS Big inning games: 57 (35.19%)
+ BOS Home    Win Big inning games: 32 (56.14%)
+ BOS away    Win Big inning games: 25 (49.02%)
+ 
+Overall Statisitcs
+ Visitor Win Big inning games: 32 (42.67%)
+ Home    winning games: 87 (53.70%)
+ Visitor winning games: 75 (46.30%)
+ Big inning games: 81 (50.00%)
+ BigorTie inning games: 112 (69.14%)
+ Home    Win Big inning games: 49 (56.32%)
+ Visitor Win Big inning games: 32 (42.67%)
+```
+
 
 Setup:
   1. Create base / project directory, e.g. big_inning
