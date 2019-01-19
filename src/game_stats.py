@@ -3,6 +3,7 @@
 import re
 
 from select_error import SelectError
+from numpy import inner
 
 fn_date = 1
 fn_game_no = 2
@@ -26,22 +27,28 @@ fn_time_of_game = 19
 fn_v_line_score = 20
 fn_h_line_score = 21
 
+fn_acquisition = 161    # Acquisition info A = complete game
+
+"""  Complete field mapping and access functinos """
+
+
 class TeamInfo:
     
-    def __init__(self, gs, team='h'):
-        """ Team information
-        :team: w - winning team, if one
+    def __init__(self, gs, team_type='h'):
+        """ Team type information
+        :team_type: w - winning team, if one
                l - loosing team, if one
                h - home team
                v = visitor
-               
-        if winloose = 'w':
-            self.date = gs.date()
-            self.game_no = gs.game_no()
-            self.day_of_week = gs.day_of_week()
-            self.team = gs.
+              
         """
+        self.gs = gs
+        self.team_type = team_type
+        self.strict = False
         self.date = 0
+        self.year = 0
+        self.mth_no = 0
+        self.mth_day_no = 0
         self.game_no = 0
         self.day_of_week = 0
         self.team = ""
@@ -60,89 +67,96 @@ class TeamInfo:
         self.win_loss = "?"
         self.inning_scores = []
              
-        if team == 'w':
+        if team_type == 'w':
             if gs.h_game_score() > gs.v_game_score():
-                team = 'h'
+                team_type = 'h'
                 self.win = True
             elif gs.h_game_score() < gs.v_game_score():
-                team = 'v'
+                team_type = 'v'
                 self.win = True
             else:
-                team = 'h'
+                team_type = 'h'
                 self.tie_game = True
-        elif team == 'l':
+        elif team_type == 'l':
             if gs.h_game_score() < gs.v_game_score():
-                team = 'h'
+                team_type = 'h'
                 self.win = True
             elif gs.h_game_score() > gs.v_game_score():
-                team = 'v'
+                team_type = 'v'
                 self.win = True
             else:
-                team = 'h'
+                team_type = 'h'
                 self.tie_game = True
-        elif team == 'h':
-            if gs.h_game_score() > gs.v_game_score():
-                self.win = True
-            elif gs.h_game_score() < gs.v_game_score():
-                self.win = False
-            else:
-                self.tie_game = True    
-        elif team == 'v':
-            if gs.h_game_score() < gs.v_game_score():
-                self.win = True
-            elif gs.h_game_score() > gs.v_game_score():
-                self.win = False
-            else:
-                self.tie_game = True    
-        else:
-            raise SelectError("Unrecognize team info team '%s' in %s" % (team, gs.row))
         
-        team_type = team
+        self.strict = gs.is_strict()
         self.team_type = team_type
+        self.date = gs.date()
+        self.day_of_week = gs.day_of_week()
+        self.year = gs.year()
+        self.mth_no = gs.mth_no()
+        self.mth_day_no = gs.mth_day_no()
+        self.game_len_outs = gs.game_len_outs()
+        self.forfeit = gs.forfeit()
+        self.park_id = gs.park_id()
+        self.attendance = gs.attendance()
+        self.time_of_game = gs.time_of_game()
+        self.game_complete = gs.game_complete()
+        self.day_night = gs.day_night()
+        self.game_complete = gs.game_complete()
+        self.acquisition = gs.acquisition()
         
         if team_type == 'h':
-            self.date = gs.h_game_score()
             self.game_no = gs.h_game_no()
-            self.day_of_week = gs.day_of_week()
             self.team = gs.h_team()
             self.league = gs.h_league()
             self.game_score = gs.h_game_score()
-            self.game_len_outs = gs.game_len_outs()
-            self.day_night = gs.day_night()
-            self.game_complete = gs.game_complete()
-            self.forfeit = gs.forfeit()
-            self.park_id = gs.park_id()
-            self.attendance = gs.attendance()
-            self.time_of_game = gs.time_of_game()
             self.line_score = gs.h_line_score()
             self.inning_scores = gs.h_inning_scores()
+            if self.game_score > gs.v_game_score():
+                self.win = True
+            elif self.game_score < gs.v_game_score():
+                self.win = False
+            else:
+                self.tie_game = True    
         elif team_type == 'v':
-            self.date = gs.v_game_score()
             self.game_no = gs.v_game_no()
-            self.day_of_week = gs.day_of_week()
             self.team = gs.v_team()
             self.league = gs.v_league()
             self.game_score = gs.v_game_score()
-            self.game_len_outs = gs.game_len_outs()
-            self.day_night = gs.day_night()
-            self.game_complete = gs.game_complete()
-            self.forfeit = gs.forfeit()
-            self.park_id = gs.park_id()
-            self.attendance = gs.attendance()
-            self.time_of_game = gs.time_of_game()
             self.line_score = gs.v_line_score()
             self.inning_scores = gs.v_inning_scores()
-       
+            if self.game_score > gs.h_game_score():
+                self.win = True
+            elif self.game_score < gs.h_game_score():
+                self.win = False
+            else:
+                self.tie_game = True
+        else:
+            raise SelectError("Unrecognized team info team '%s' in %s" % (team, gs.row))
+
+
+    def fiwirun(self, runs):
+        """ Get first inning with this many runs
+        :runs: number of runs to find
+        """
+        for idx, score in enumerate(self.inning_scores):
+            if score == runs:
+                return idx + 1
+            
+        raise SelectError("fiwirun: no such inning with: %d in %s"
+                          % (runs, self.gs.summary()) ) 
         
-        
+                   
 class GameStats:
     n_skipped = 0
     n_processed = 0
     
-    def __init__(self, row):
+    def __init__(self, row, strict=False):
         """ Input from parsed csv file
+        :row: list from csv parsing
+        :strict: Only allow complete games default: False
         """
-
+        self.strict = strict
         self.row = row
         """ Do some sanity checking score == total line
         """
@@ -167,13 +181,19 @@ class GameStats:
             raise SelectError("home score(%d) != sum of innings(%d) date: %s %s @ %s"
                               % (h_score, h_isum, self.date(),
                                  self.h_team(), self.h_team()))
+
+    def is_strict(self):
+        return self.strict
         
     def is_ok(self):
         """ Sanity check
         We will ignore if not
         """
-        if (len(self.v_inning_scores()) == 0
-             or len(self.h_inning_scores()) == 0):
+        if self.strict and self.acquisition() != "Y":
+            return False
+        
+        if (len(self.v_inning_scores()) < 5
+             or len(self.h_inning_scores()) < 4):
             return False
     
         return True
@@ -242,6 +262,20 @@ class GameStats:
 
     def h_line_score(self):
         return self.row[fn_h_line_score-1]
+
+    
+    def acquisition(self):
+        return self.row[fn_acquisition-1]
+    
+    
+    def year(self):
+        return int(self.date()[0:3])
+
+    def mth_no(self):
+        return int(self.date()[4:5])
+
+    def mth_day_no(self):
+        return int(self.date()[6:7])
 
     def v_inning_scores(self):
         """ Inning scores
@@ -332,7 +366,7 @@ class GameStats:
                + " home: " + self.h_line_score()
                )
         return str_str
-
+        
 """
 Field format
 From:
