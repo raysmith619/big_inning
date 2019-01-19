@@ -29,21 +29,29 @@ downloaded to the "data" sister directory from www.retrosheet.org/gamelogs
 
 At the risk of spoiling the surprise, the run listing end was:
 ```
- Big Inning for PHI of 2 runs in 20180930 ATL @ PHI visitor: 001000000 home: 20001000x
- Big Inning for LAN of 7 runs in 20180930 LAN @ SFN visitor: 207320001 home: 000000000
- Big Inning for BAL of 4 runs in 20180930 HOU @ BAL visitor: 000000000 home: 00040000x
- Big Inning for BOS of 4 runs in 20180930 NYA @ BOS visitor: 000200000 home: 43030000x
- Big Inning for SEA of 2 runs in 20180930 TEX @ SEA visitor: 000001000 home: 02001000x
- Big Inning for MIL of 2 runs in 20181001 MIL @ CHN visitor: 001000020 home: 000010000
- 
- Games processed: 197236  skipped: 20931
+ Big Inning: NYN got 1 in inning 13 on 20180929 MIA @ NYN visitor: 0000000000000 home: 0000000000001
+ Big Inning: PHI got 3 in inning 7 on 20180929 ATL @ PHI visitor: 000000000 home: 00000030x
+ Big Inning: MIN got 6 in inning 2 on 20180929 CHA @ MIN visitor: 100000002 home: 26000000x
+ Big Inning: SEA got 3 in inning 7 on 20180929 TEX @ SEA visitor: 100000000 home: 00001030x
+ Big Inning: COL got 3 in inning 5 on 20180930 WAS @ COL visitor: 000000000 home: 20203023x
+ Big Inning: MIL got 6 in inning 7 on 20180930 DET @ MIL visitor: 000000000 home: 20010161x
+ Big Inning: NYN got 1 in inning 4 on 20180930 MIA @ NYN visitor: 000000000 home: 00010000x
+ Big Inning: PHI got 2 in inning 1 on 20180930 ATL @ PHI visitor: 001000000 home: 20001000x
+ Big Inning: LAN got 7 in inning 3 on 20180930 LAN @ SFN visitor: 207320001 home: 000000000
+ Big Inning: BAL got 4 in inning 4 on 20180930 HOU @ BAL visitor: 000000000 home: 00040000x
+ Big Inning: BOS got 4 in inning 1 on 20180930 NYA @ BOS visitor: 000200000 home: 43030000x
+ Big Inning: SEA got 2 in inning 2 on 20180930 TEX @ SEA visitor: 000001000 home: 02001000x
+ Big Inning: MIL got 2 in inning 8 on 20181001 MIL @ CHN visitor: 001000020 home: 000010000
+ Games processed: 197231  skipped: 20936
  First skipped: 18720525 MID @ WS4 visitor:  home: 
  Last skipped: 19790712 DET @ CHA visitor:  home: 
  First processed: 18710504 CL1 @ FW1 visitor: 000000000 home: 010010000
  Last processed: 20181001 COL @ LAN visitor: 000000002 home: 00022100x
- Big inning games: 92199 (46.75%)
+ Big inning games: 92196 (46.75%)
+ BigorTie inning games: 133743 (67.81%)
  Saving properties file C:\Users\raysm\workspace\python\baseball\big_inning.properties
- Closing log file C:\Users\raysm\workspace\python\baseball\log\big_inning_20190118_101400.sllog
+ Closing log file C:\Users\raysm\workspace\python\baseball\log\big_inning_20190118_191651.sllog
+
 ```
 The number of 47% was a surprise to me.  I've not investigated the high number of skipped games (20931) - those
 which have no inning data.  This may be a bug or missing data, but the 197236 processed games provide
